@@ -1,0 +1,93 @@
+# To-Do List Manager - College Students Edition
+def display_menu():
+    """Display the main menu to the user."""
+    print("\n--- To-Do List Manager ---")
+    print("1. Add a Task")
+    print("2. View All Tasks")
+    print("3. Mark a Task as Completed")
+    print("4. Delete a Task")
+    print("5. Exit")
+
+
+def add_task(task_list):
+    """Add a new task to the to-do list."""
+    task = input("Enter the task you want to add: ")
+    task_list.append({"task": task, "completed": False})
+    print(f"Task '{task}' added!")
+
+
+def view_tasks(task_list):
+    """Display all tasks."""
+    if not task_list:
+        print("No tasks found. Your to-do list is empty!")
+        return
+
+    print("\nYour To-Do List:")
+    for idx, task in enumerate(task_list, start=1):
+        status = "✅ Completed" if task["completed"] else "❌ Pending"
+        print(f"{idx}. {task['task']} - {status}")
+
+
+def mark_task_completed(task_list):
+    """Mark a specified task as completed."""
+    view_tasks(task_list)
+    try:
+        choice = int(input("Enter the number of the task to mark as completed: "))
+        if 1 <= choice <= len(task_list):
+            task_list[choice - 1]["completed"] = True
+            print("Task marked as completed!")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+
+def delete_task(task_list):
+    """Delete a specified task from the to-do list."""
+    view_tasks(task_list)
+    try:
+        choice = int(input("Enter the number of the task to delete: "))
+        if 1 <= choice <= len(task_list):
+            removed_task = task_list.pop(choice - 1)
+            print(f"Task '{removed_task['task']}' deleted!")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+
+def get_user_choice():
+    """Handle menu choice from the user."""
+    try:
+        choice = int(input("\nChoose an option (1-5): "))
+        return choice
+    except ValueError:
+        print("Please enter a valid number.")
+        return None
+
+
+def main_loop():
+    """Main program loop to keep the application running."""
+    task_list = []
+    while True:
+        display_menu()
+        choice = get_user_choice()
+        
+        if choice == 1:
+            add_task(task_list)
+        elif choice == 2:
+            view_tasks(task_list)
+        elif choice == 3:
+            mark_task_completed(task_list)
+        elif choice == 4:
+            delete_task(task_list)
+        elif choice == 5:
+            print("Goodbye! Have a productive day. 🚀")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+# Run the main application
+if __name__ == "__main__":
+    main_loop()
